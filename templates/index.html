@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Campus Activewear | Profitability Insight Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-badge">CA</span>
+      <div>
+        <p class="logo-title">Campus Activewear</p>
+        <p class="logo-sub">Profitability Insight Studio</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#overview">Overview</a>
+      <a href="#steps">How it works</a>
+      <a href="#insights">Insights</a>
+      <a href="#api">S/4HANA API</a>
+    </nav>
+    <div class="header-actions">
+      <button class="ghost">Share</button>
+      <button class="primary">Launch demo</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="overview">
+      <div class="hero-copy">
+        <div class="pill">Educational AI Experience · Campus Activewear</div>
+        <h1>Show-and-tell AI profitability insights in three guided steps.</h1>
+        <p>
+          Turn S/4HANA ACDOCA profitability data into clear, explainable outcomes. This agentic UI
+          demonstrates model training, variance explanations, and high-level themes with drill-down
+          detail — all in a polished, client-ready experience.
+        </p>
+        <div class="hero-actions">
+          <button class="primary">Start guided tour</button>
+          <button class="secondary">View data story</button>
+        </div>
+        <div class="hero-metrics">
+          <div>
+            <h3>96%</h3>
+            <p>Model explainability coverage</p>
+          </div>
+          <div>
+            <h3>{{ line_items | length }}</h3>
+            <p>Sales order lines analyzed</p>
+          </div>
+          <div>
+            <h3>12</h3>
+            <p>Profitability drivers tracked</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-header">
+          <h2>Agentic AI Workflow</h2>
+          <span class="panel-badge">Live demo</span>
+        </div>
+        <div class="panel-body">
+          <div class="step-card">
+            <div class="step-index">1</div>
+            <div>
+              <h4>Model build & training</h4>
+              <p>ACDOCA profitability signals feed an XGBoost model.</p>
+              <span class="tag">Data pipeline connected</span>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-index">2</div>
+            <div>
+              <h4>Explain actual vs expected</h4>
+              <p>SHAP visuals highlight variance drivers per line item.</p>
+              <span class="tag">Explainability ready</span>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-index">3</div>
+            <div>
+              <h4>Theme & drill-down insights</h4>
+              <p>Aggregate themes reveal the largest profitability impact.</p>
+              <span class="tag">Guided exploration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps" id="steps">
+      <div class="section-title">
+        <h2>Step-wise AI explainability</h2>
+        <p>Each step is designed to educate and empower business users.</p>
+      </div>
+
+      <div class="step-grid">
+        <article class="step-detail">
+          <header>
+            <div class="step-icon">01</div>
+            <div>
+              <h3>Model building & training</h3>
+              <p>Profitability data sourced from S/4HANA ACDOCA tables.</p>
+            </div>
+          </header>
+          <ul>
+            <li>Automated feature engineering for channel, region, and product mix.</li>
+            <li>Model comparison panel: XGBoost, Random Forest, Linear Baseline.</li>
+            <li>Training diagnostics with fairness and bias guardrails.</li>
+          </ul>
+          <div class="training-card">
+            <div>
+              <p>Dataset</p>
+              <h4>{{ training.dataset }}</h4>
+            </div>
+            <div class="training-metrics">
+              <div>
+                <span>Rows</span>
+                <strong>{{ "{:,}".format(training.rows) }}</strong>
+              </div>
+              <div>
+                <span>Features</span>
+                <strong>{{ training.features }}</strong>
+              </div>
+              <div>
+                <span>Validation R²</span>
+                <strong>{{ training.validation.r2 }}</strong>
+              </div>
+              <div>
+                <span>MAE</span>
+                <strong>{{ training.validation.mae }}</strong>
+              </div>
+            </div>
+            <p class="training-window">Training window: {{ training.time_window }}</p>
+          </div>
+        </article>
+
+        <article class="step-detail">
+          <header>
+            <div class="step-icon">02</div>
+            <div>
+              <h3>Variance explanation</h3>
+              <p>Explain expected vs actual profitability per sales order.</p>
+            </div>
+          </header>
+          <ul>
+            <li>SHAP force plots show impact of discounting and freight.</li>
+            <li>Hover to view each line-item variance with confidence bounds.</li>
+            <li>Auto-generated narratives for planners and finance leads.</li>
+          </ul>
+          <div class="variance-card">
+            <div>
+              <p>SO Line 0147</p>
+              <h4>₹18.2K below expected</h4>
+            </div>
+            <div class="variance-bars">
+              <div class="impact positive">+₹12K Price</div>
+              <div class="impact negative">-₹9K Discount</div>
+              <div class="impact negative">-₹7K Freight</div>
+            </div>
+          </div>
+          <div class="mock-panel">
+            <div class="mock-panel-header">
+              <h4>Mock S/4HANA line-item explanation</h4>
+              <span>ACDOCA → SHAP</span>
+            </div>
+            <div class="mock-panel-body">
+              <div class="mock-item-card">
+                <div>
+                  <p>Sales Order {{ line_items[0].order }} · Line {{ line_items[0].line }}</p>
+                  <h5>{{ line_items[0].sku }} ({{ line_items[0].material_group }})</h5>
+                  <span>{{ line_items[0].customer }} · {{ line_items[0].sales_org }} · {{ line_items[0].region }}</span>
+                </div>
+                <div class="mock-values">
+                  <div>
+                    <span>Expected margin</span>
+                    <strong>₹{{ "{:,.0f}".format(line_items[0].expected_margin) }}</strong>
+                  </div>
+                  <div>
+                    <span>Actual margin</span>
+                    <strong>₹{{ "{:,.0f}".format(line_items[0].actual_margin) }}</strong>
+                  </div>
+                  <div>
+                    <span>Variance</span>
+                    <strong class="negative">₹{{ "{:,.0f}".format(line_items[0].actual_margin - line_items[0].expected_margin) }}</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="shap-grid">
+                {% for shap in line_items[0].shap %}
+                <div class="shap-card {{ shap.direction }}">
+                  <p>{{ shap.feature }}</p>
+                  <h5>{% if shap.impact > 0 %}+{% endif %}₹{{ "{:,.0f}".format(shap.impact) }}</h5>
+                  <span>{{ shap.note }}</span>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="step-detail">
+          <header>
+            <div class="step-icon">03</div>
+            <div>
+              <h3>Theme aggregation & drill-down</h3>
+              <p>Translate variance patterns into actionable business themes.</p>
+            </div>
+          </header>
+          <ul>
+            <li>Cluster drivers into strategic themes with impact ranking.</li>
+            <li>Filter by region, channel, or product family.</li>
+            <li>Click any theme to reveal root-cause evidence.</li>
+          </ul>
+          <div class="theme-list">
+            {% for theme in themes %}
+            <div class="theme">
+              <span>{{ theme.title }}</span>
+              <strong>{{ theme.impact }}</strong>
+            </div>
+            {% endfor %}
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="insights" id="insights">
+      <div class="section-title">
+        <h2>Profitability insight workspace</h2>
+        <p>Explore line items, drivers, and summaries in one collaborative canvas.</p>
+      </div>
+      <div class="workspace">
+        <div class="workspace-column">
+          <h3>Line item explorer</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Sales Order</th>
+                <th>Line</th>
+                <th>SKU</th>
+                <th>Expected Margin</th>
+                <th>Actual Margin</th>
+                <th>Variance</th>
+                <th>Region</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in line_items %}
+              <tr>
+                <td>{{ item.order }}</td>
+                <td>{{ item.line }}</td>
+                <td>{{ item.sku }}</td>
+                <td>₹{{ "{:,.0f}".format(item.expected_margin) }}</td>
+                <td>₹{{ "{:,.0f}".format(item.actual_margin) }}</td>
+                <td class="{{ 'negative' if item.actual_margin < item.expected_margin else 'positive' }}">
+                  ₹{{ "{:,.0f}".format(item.actual_margin - item.expected_margin) }}
+                </td>
+                <td>{{ item.region }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="workspace-column">
+          <h3>Driver impact matrix</h3>
+          <div class="impact-grid">
+            {% for driver in drivers %}
+            <div class="impact-card">
+              <p>{{ driver.name }}</p>
+              <h4>{{ driver.impact }}</h4>
+              <span>{{ driver.detail }}</span>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="callout">
+            <h4>Agent summary</h4>
+            <p>
+              Across Q3, excess freight in East and discount-heavy campaigns caused 62% of negative
+              variance. Premium catalog performance offset 38% of the decline.
+            </p>
+            <p class="timestamp">Generated {{ generated_at }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="api" id="api">
+      <div class="section-title">
+        <h2>Ready for S/4HANA API integration</h2>
+        <p>Use dummy data today. Swap in live ACDOCA endpoints when available.</p>
+      </div>
+      <div class="api-panel">
+        <div>
+          <h3>Connection status</h3>
+          <p class="status online">{{ 'Sandbox connected' if api_ready else 'Disconnected' }}</p>
+          <p class="description">
+            The demo currently reads mock data from a local adapter. Configure the connection string
+            to point at your S/4HANA environment when ready.
+          </p>
+          <button class="secondary">Configure endpoints</button>
+        </div>
+        <div class="code-block">
+<pre>GET /sap/opu/odata/sap/ACDOCA_PROFITABILITY
+Headers:
+  x-api-key: {campus_activewear_key}
+  client: 100
+  region: IN</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <strong>Campus Activewear Ltd.</strong>
+      <p>AI explainability studio for profitability excellence.</p>
+    </div>
+    <div class="footer-actions">
+      <button class="ghost">Download report</button>
+      <button class="primary">Book walkthrough</button>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
