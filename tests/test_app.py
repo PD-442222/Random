@@ -16,5 +16,8 @@ def test_demo_api():
     assert payload["source"] == "S/4HANA ACDOCA"
     assert payload["api_ready"] is True
     assert payload["training"]["dataset"] == "ACDOCA Profitability Extract"
+    assert payload["training_pipeline"]
+    assert payload["evaluation"]["run_window"] == "Current Month"
+    assert payload["insights"]["actions"]
     assert len(payload["line_items"]) >= 1
     assert payload["line_items"][0]["shap"]

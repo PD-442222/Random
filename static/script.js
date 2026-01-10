@@ -1,6 +1,8 @@
 const statusNode = document.querySelector(".status");
 const mockPanel = document.querySelector(".mock-panel");
 const heroMetrics = document.querySelector(".hero-metrics");
+const processTabs = document.querySelectorAll(".process-tab");
+const processPanels = document.querySelectorAll(".process-panel");
 
 function formatCurrency(value) {
   return `₹${Number(value).toLocaleString("en-IN")}`;
@@ -77,3 +79,13 @@ async function hydrateDemo() {
 }
 
 hydrateDemo();
+
+processTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const step = tab.dataset.step;
+    processTabs.forEach((item) => item.classList.toggle("is-active", item === tab));
+    processPanels.forEach((panel) => {
+      panel.classList.toggle("is-active", panel.dataset.stepPanel === step);
+    });
+  });
+});

@@ -159,6 +159,40 @@ TRAINING_SUMMARY = {
     "time_window": "FY23 Q1-Q4",
 }
 
+TRAINING_PIPELINE = [
+    {
+        "stage": "Ingest ACDOCA",
+        "detail": "Pull profitability ledger, cost elements, and pricing conditions.",
+        "output": "182,400 rows · 42 features",
+    },
+    {
+        "stage": "Feature engineering",
+        "detail": "Channel mix, freight lanes, promo depth, and material group signals.",
+        "output": "Standardized feature set",
+    },
+    {
+        "stage": "Model training",
+        "detail": "XGBoost with cross-validation and bias checks.",
+        "output": "R² 0.91 · MAE ₹4.2K",
+    },
+]
+
+EVALUATION_SUMMARY = {
+    "run_window": "Current Month",
+    "line_items": len(DUMMY_LINE_ITEMS),
+    "variance_total": "-₹5.9L",
+    "top_drivers": ["Discount depth", "Freight variance", "Premium share"],
+}
+
+INSIGHT_SUMMARY = {
+    "themes": 3,
+    "actions": [
+        "Renegotiate East lane freight contracts",
+        "Tighten festive discount guardrails",
+        "Double down on performance SKUs in North",
+    ],
+}
+
 
 @app.route("/")
 def index():
@@ -169,6 +203,9 @@ def index():
         drivers=DUMMY_DRIVERS,
         themes=THEMES,
         training=TRAINING_SUMMARY,
+        training_pipeline=TRAINING_PIPELINE,
+        evaluation=EVALUATION_SUMMARY,
+        insights=INSIGHT_SUMMARY,
         api_ready=True,
     )
 
@@ -181,6 +218,9 @@ def demo_api():
             "model": "xgboost_profitability_v1",
             "api_ready": True,
             "training": TRAINING_SUMMARY,
+            "training_pipeline": TRAINING_PIPELINE,
+            "evaluation": EVALUATION_SUMMARY,
+            "insights": INSIGHT_SUMMARY,
             "line_items": [asdict(item) for item in DUMMY_LINE_ITEMS],
             "drivers": [driver.__dict__ for driver in DUMMY_DRIVERS],
             "themes": THEMES,
