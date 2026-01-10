@@ -113,10 +113,30 @@
             <li>Model comparison panel: XGBoost, Random Forest, Linear Baseline.</li>
             <li>Training diagnostics with fairness and bias guardrails.</li>
           </ul>
-          <div class="mini-chart">
-            <div class="bar" style="--value: 90%">XGBoost</div>
-            <div class="bar" style="--value: 76%">Random Forest</div>
-            <div class="bar" style="--value: 61%">Linear</div>
+          <div class="training-card">
+            <div>
+              <p>Dataset</p>
+              <h4>{{ training.dataset }}</h4>
+            </div>
+            <div class="training-metrics">
+              <div>
+                <span>Rows</span>
+                <strong>{{ "{:,}".format(training.rows) }}</strong>
+              </div>
+              <div>
+                <span>Features</span>
+                <strong>{{ training.features }}</strong>
+              </div>
+              <div>
+                <span>Validation R²</span>
+                <strong>{{ training.validation.r2 }}</strong>
+              </div>
+              <div>
+                <span>MAE</span>
+                <strong>{{ training.validation.mae }}</strong>
+              </div>
+            </div>
+            <p class="training-window">Training window: {{ training.time_window }}</p>
           </div>
         </article>
 
@@ -142,6 +162,44 @@
               <div class="impact positive">+₹12K Price</div>
               <div class="impact negative">-₹9K Discount</div>
               <div class="impact negative">-₹7K Freight</div>
+            </div>
+          </div>
+          <div class="mock-panel">
+            <div class="mock-panel-header">
+              <h4>Mock S/4HANA line-item explanation</h4>
+              <span>ACDOCA → SHAP</span>
+            </div>
+            <div class="mock-panel-body">
+              <div class="mock-item-card">
+                <div>
+                  <p>Sales Order {{ line_items[0].order }} · Line {{ line_items[0].line }}</p>
+                  <h5>{{ line_items[0].sku }} ({{ line_items[0].material_group }})</h5>
+                  <span>{{ line_items[0].customer }} · {{ line_items[0].sales_org }} · {{ line_items[0].region }}</span>
+                </div>
+                <div class="mock-values">
+                  <div>
+                    <span>Expected margin</span>
+                    <strong>₹{{ "{:,.0f}".format(line_items[0].expected_margin) }}</strong>
+                  </div>
+                  <div>
+                    <span>Actual margin</span>
+                    <strong>₹{{ "{:,.0f}".format(line_items[0].actual_margin) }}</strong>
+                  </div>
+                  <div>
+                    <span>Variance</span>
+                    <strong class="negative">₹{{ "{:,.0f}".format(line_items[0].actual_margin - line_items[0].expected_margin) }}</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="shap-grid">
+                {% for shap in line_items[0].shap %}
+                <div class="shap-card {{ shap.direction }}">
+                  <p>{{ shap.feature }}</p>
+                  <h5>{% if shap.impact > 0 %}+{% endif %}₹{{ "{:,.0f}".format(shap.impact) }}</h5>
+                  <span>{{ shap.note }}</span>
+                </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
         </article>
@@ -183,9 +241,10 @@
             <thead>
               <tr>
                 <th>Sales Order</th>
+                <th>Line</th>
                 <th>SKU</th>
-                <th>Expected</th>
-                <th>Actual</th>
+                <th>Expected Margin</th>
+                <th>Actual Margin</th>
                 <th>Variance</th>
                 <th>Region</th>
               </tr>
@@ -194,11 +253,12 @@
               {% for item in line_items %}
               <tr>
                 <td>{{ item.order }}</td>
+                <td>{{ item.line }}</td>
                 <td>{{ item.sku }}</td>
-                <td>₹{{ "{:,.0f}".format(item.expected) }}</td>
-                <td>₹{{ "{:,.0f}".format(item.actual) }}</td>
-                <td class="{{ 'negative' if item.actual < item.expected else 'positive' }}">
-                  ₹{{ "{:,.0f}".format(item.actual - item.expected) }}
+                <td>₹{{ "{:,.0f}".format(item.expected_margin) }}</td>
+                <td>₹{{ "{:,.0f}".format(item.actual_margin) }}</td>
+                <td class="{{ 'negative' if item.actual_margin < item.expected_margin else 'positive' }}">
+                  ₹{{ "{:,.0f}".format(item.actual_margin - item.expected_margin) }}
                 </td>
                 <td>{{ item.region }}</td>
               </tr>
